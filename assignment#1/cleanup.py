@@ -32,7 +32,7 @@ def cleanup():
     dict_ = dict_[~dict_['Word'].transform(lambda w : drop_word(w))]
     rows_after = dict_.size
     print(f'{rows_before - rows_after} rows dropped')
-    dict_.to_csv(output_path)
+    dict_.to_csv(output_path, index=False)
 
 parse_argv()
 cleanup()

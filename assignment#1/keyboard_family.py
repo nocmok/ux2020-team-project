@@ -13,8 +13,8 @@ class KeyboardFamily:
         return ord(letter.lower()) - ord('а')
 
     def create_keyboard(self, prefix_len):
-        current_layout = {'s' : [], 'd' : [], 'f' : [], 'g' : [], 'h' : [], 'i' : [], 'j' : [], 'k' : []}
-        buttons = ['s', 'd', 'f', 'g', 'h', 'i', 'j', 'k']
+        current_layout = {'s' : [], 'd' : [], 'f' : [], 'g' : [], 'h' : [], 'j' : [], 'k' : [], 'l' : []}
+        buttons = ['s', 'd', 'f', 'g', 'h', 'j', 'k', 'l']
         current_button_number = 0
         letter_used = [False for i in range(0, 33)]
 

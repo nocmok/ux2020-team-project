@@ -20,7 +20,7 @@ def parse_argv():
     dict_path = sys.argv[1]
     output_path = sys.argv[2]
 
-cyr_pattern_str = "^[абвгдеёжзийклмнопрстуфхцчшщъыьэюя]+$" 
+cyr_pattern_str = "^[абвгдежзийклмнопрстуфхцчшщъыьэюя]+$" 
 cyr_pattern = re.compile(cyr_pattern_str)
 
 def drop_word(word):

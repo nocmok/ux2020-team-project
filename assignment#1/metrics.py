@@ -4,25 +4,33 @@ import pandas as pd
 import numpy as np
 from trie import Trie
 
+import time
+
 if __name__ != '__main__':
     sys.exit()
 
-layout_path = ""
+layout_pathes = []
 dict_path = ""
 
 
 def parse_argv():
-    global layout_path
+    global layout_pathes
     global dict_path
-    if len(sys.argv) != 3:
-        print('usage: python metrics.py [path/to/layout] [path/to/dictionary]')
-    layout_path = sys.argv[1]
-    dict_path = sys.argv[2]
+    if len(sys.argv) < 2:
+        print(
+            'usage: python metrics.py [path/to/layout#1, ...] [path/to/dictionary]')
+
+    layout_pathes = [path for path in sys.argv[1:-1]]
+
+    # for i in range(1, 29):
+        # layout_pathes.append(f'keyboard_prefix_{i}.json')
+
+    dict_path = sys.argv[-1]
 
 
 def parse_layout(path):
     layout_str = ""
-    with open(layout_path) as f:
+    with open(path) as f:
         layout_str = f.read()
     layout = json.loads(layout_str)
     return layout
@@ -46,38 +54,70 @@ class KeyboardLayout:
         return self._depths[char]
 
 
-def keystrokes_per_word(trie, layout, word, line):
-    keystrokes = 0
-    prediction_threshold = trie.keystrokes_per_word(word, line)
-    for index, c in enumerate(word):
-        if index + 1 > prediction_threshold:
+def kspw_exclude_space(trie, layout, word, line):
+    ks = 0
+    predict_threshold = trie.keystrokes_per_word(word, line)
+    for i, c in enumerate(word):
+        if i + 1 > predict_threshold:
             break
-        keystrokes += layout.char_depth(c)
-    return keystrokes
+        ks += layout.char_depth(c)
+    return ks
+
+
+def kspw(trie, layout, word, line):
+    ks = 0
+    predict_threshold = trie.keystrokes_per_word(word, line)
+    for i, c in enumerate(word):
+        if i + 1 > predict_threshold:
+            break
+        ks += layout.char_depth(c)
+    return ks + 1 if predict_threshold < len(word) else ks
+
+
+def kspc_exclude_space(trie, layout, dict_):
+    kw = np.array(list(map(lambda i : kspw_exclude_space(trie, layout, dict_['Word'].values[i], i), dict_['#'].values)))
+    cw = np.array(list(map(lambda w : len(w), dict_['Word'].values)))
+    kspc = (kw * dict_['Freq'].values).sum() / (cw * dict_['Freq'].values).sum()
+    return kspc
 
 
 def kspc(trie, layout, dict_):
-    dict_.insert(0, column='#', value=range(0, dict_.shape[0]))
-    dict_['Kw'] = dict_['#'].transform(lambda x : keystrokes_per_word(trie, layout, dict_['Word'][x], x) + 1)
-    dict_['Cw'] = dict_['Word'].transform(lambda w : len(w))
-    kspc = (dict_['Kw'] * dict_['Freq']).sum() / (dict_['Cw'] * dict_["Freq"]).sum()
+    kw = np.array(list(map(lambda i : kspw(trie, layout, dict_['Word'].values[i], i), dict_['#'].values)))
+    cw = np.array(list(map(lambda w : len(w), dict_['Word'].values)))
+    kspc = (kw * dict_['Freq'].values).sum() / (cw * dict_['Freq'].values).sum()
     return kspc
 
 def lp(trie, layout, dict_):
     return None
 
-def compute_metrics(trie, layout, dict_):
-    df = pd.DataFrame(columns=['kspc', 'lp'])
-    df.loc[get_file_name(layout_path)] = [
-        kspc(trie, layout, dict_), lp(trie, layout, dict_)]
+
+kspc_exclude_space.metric_name = 'kspc(exclude space)'
+kspc.metric_name = 'kspc'
+lp.metric_name = 'lp'
+
+def compute_metrics(trie, layouts, dict_):
+    metrics = [kspc_exclude_space, kspc, lp]
+    df = pd.DataFrame(columns=[metric.metric_name for metric in metrics])
+
+    for i in range(0, len(layouts)):
+        df.loc[get_file_name(layout_pathes[i])] = [metric(
+            trie, layouts[i], dict_) for metric in metrics]
     return df
 
+
 parse_argv()
-layout = KeyboardLayout(parse_layout(layout_path))
+
+layouts = [KeyboardLayout(parse_layout(path)) for path in layout_pathes]
+
 dict_ = pd.read_csv(dict_path)
+dict_.insert(0, column='#', value=range(0, dict_.shape[0]))
 
 trie = Trie()
 trie.add_dataset(dict_)
 
-metrics = compute_metrics(trie, layout, dict_)
+before = time.time()
+metrics = compute_metrics(trie, layouts, dict_)
+after =  time.time()
+print(round((after - before) * 1000))
+
 print(metrics.to_string())

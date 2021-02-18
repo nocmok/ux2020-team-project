@@ -10,21 +10,31 @@ if __name__ != '__main__':
     sys.exit()
 
 layout_pathes = []
+baseline_layout_path = ""
 dict_path = ""
+baseline_layout = None
+
+keys = ['s', 'd', 'f', 'g', 'h', 'j', 'k', 'l']
+keys_to_index = {key: keys.index(key) for key in keys}
+
+chars = ['а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о',
+         'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', "ы", 'ь', 'э', 'ю', 'я']
 
 
 def parse_argv():
     global layout_pathes
     global dict_path
-    if len(sys.argv) < 2:
+    global baseline_layout_path
+
+    if len(sys.argv) < 4:
         print(
-            'usage: python metrics.py [path/to/layout#1, ...] [path/to/dictionary]')
+            'usage: python metrics.py [path/to/layout#1, ...] [path/to/baseline/layout] [path/to/dictionary]')
 
-    layout_pathes = [path for path in sys.argv[1:-1]]
-
+    layout_pathes = [path for path in sys.argv[1:-2]]
     # for i in range(1, 29):
         # layout_pathes.append(f'keyboard_prefix_{i}.json')
 
+    baseline_layout_path = sys.argv[-2]
     dict_path = sys.argv[-1]
 
 
@@ -45,9 +55,14 @@ class KeyboardLayout:
     def __init__(self, dict_):
         self._dict = dict_
         self._depths = dict()
+        self._to_key = dict()
         for key, chars in self._dict.items():
             for index, c in enumerate(chars):
                 self._depths[c] = index + 1
+                self._to_key[c] = key
+
+    def char_key(self, char):
+        return self._to_key[char]
 
     def char_depth(self, char):
         """How much taps to perform in order to select specified character"""
@@ -75,25 +90,35 @@ def kspw(trie, layout, word, line):
 
 
 def kspc_exclude_space(trie, layout, dict_):
-    kw = np.array(list(map(lambda i : kspw_exclude_space(trie, layout, dict_['Word'].values[i], i), dict_['#'].values)))
-    cw = np.array(list(map(lambda w : len(w), dict_['Word'].values)))
-    kspc = (kw * dict_['Freq'].values).sum() / (cw * dict_['Freq'].values).sum()
+    kw = np.array(list(map(lambda i: kspw_exclude_space(
+        trie, layout, dict_['Word'].values[i], i), dict_['#'].values)))
+    cw = np.array(list(map(lambda w: len(w), dict_['Word'].values)))
+    kspc = (kw * dict_['Freq'].values).sum() / \
+        (cw * dict_['Freq'].values).sum()
     return kspc
 
 
 def kspc(trie, layout, dict_):
-    kw = np.array(list(map(lambda i : kspw(trie, layout, dict_['Word'].values[i], i), dict_['#'].values)))
-    cw = np.array(list(map(lambda w : len(w), dict_['Word'].values)))
-    kspc = (kw * dict_['Freq'].values).sum() / (cw * dict_['Freq'].values).sum()
+    kw = np.array(list(map(lambda i: kspw(trie, layout, dict_[
+                  'Word'].values[i], i), dict_['#'].values)))
+    cw = np.array(list(map(lambda w: len(w), dict_['Word'].values)))
+    kspc = (kw * dict_['Freq'].values).sum() / \
+        (cw * dict_['Freq'].values).sum()
     return kspc
 
+
 def lp(trie, layout, dict_):
-    return None
+    lp = 0
+    for char in chars:
+        lp += abs(keys_to_index[layout.char_key(char)] -
+                  keys_to_index[baseline_layout.char_key(char)])
+    return lp
 
 
 kspc_exclude_space.metric_name = 'kspc(exclude space)'
 kspc.metric_name = 'kspc'
 lp.metric_name = 'lp'
+
 
 def compute_metrics(trie, layouts, dict_):
     metrics = [kspc_exclude_space, kspc, lp]
@@ -106,18 +131,14 @@ def compute_metrics(trie, layouts, dict_):
 
 
 parse_argv()
-
 layouts = [KeyboardLayout(parse_layout(path)) for path in layout_pathes]
+baseline_layout = KeyboardLayout(parse_layout(baseline_layout_path))
 
 dict_ = pd.read_csv(dict_path)
 dict_.insert(0, column='#', value=range(0, dict_.shape[0]))
 
 trie = Trie()
 trie.add_dataset(dict_)
-
-before = time.time()
 metrics = compute_metrics(trie, layouts, dict_)
-after =  time.time()
-print(round((after - before) * 1000))
 
 print(metrics.to_string())

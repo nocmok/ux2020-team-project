@@ -1,12 +1,9 @@
 class TrieNode:
-    index_from_letter = [-1 for i in range(0, 33)]
-    dataset_max_frequency_line = -1
-    dataset_max_frequency = -1
-    parent_letter = '1' # temp
+    def __init__(self):
+        self.index_from_letter = [-1 for i in range(0, 33)]
+        self.dataset_max_frequency_line = -1
+        self.dataset_max_frequency = -1
+        self.parent_letter = '1' # temp
 
-    def print_trie_node(self):
+    def print_trie_node(self): # temp
         print(self.parent_letter, self.dataset_max_frequency, self.dataset_max_frequency_line)
-
-# trie_node = TrieNode()
-# print(len(trie_node.index_from_letter))
-# print(trie_node.index_from_letter)

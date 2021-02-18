@@ -32,8 +32,11 @@ class Trie:
 
     def add_dataset(self, dataset):
         dataset_len = dataset.shape[0]
+        words = dataset.Word.tolist()
+        frequency = dataset.FreqPM.tolist()
+
         for i in range(0, dataset_len):
-            self.add_word(dataset.Word[i], dataset.FreqPM[i], i)
+            self.add_word(words[i], frequency[i], i)
 
     def keystrokes_per_word(self, word, line):
         current_index = 0

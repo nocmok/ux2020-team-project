@@ -129,8 +129,8 @@ def kspc_exclude_space(trie, layout, dict_):
     kw = np.array(list(map(lambda i: kspw_exclude_space(
         trie, layout, dict_['Word'].values[i], i), dict_['#'].values)))
     cw = np.array(list(map(lambda w: len(w), dict_['Word'].values)))
-    kspc = (kw * dict_['Freq'].values).sum() / \
-        (cw * dict_['Freq'].values).sum()
+    fw = dict_['Freq'].values
+    kspc = (kw * fw).sum() / (cw * fw).sum()
     return kspc
 
 
@@ -138,8 +138,8 @@ def kspc(trie, layout, dict_):
     kw = np.array(list(map(lambda i: kspw(trie, layout, dict_[
                   'Word'].values[i], i), dict_['#'].values)))
     cw = np.array(list(map(lambda w: len(w), dict_['Word'].values)))
-    kspc = (kw * dict_['Freq'].values).sum() / \
-        (cw * dict_['Freq'].values).sum()
+    fw = dict_['Freq'].values
+    kspc = (kw * fw).sum() / (cw * fw).sum()
     return kspc
 
 
@@ -165,6 +165,7 @@ def compute_metrics(trie, layouts, dict_):
         df.loc[get_file_name(layout_pathes[i])] = [round(metric(
             trie, layouts[i], dict_), 4) for metric in metrics]
     return df
+
 
 parse_argv()
 layouts = [KeyboardLayout(parse_layout(path)) for path in layout_pathes]

@@ -2,6 +2,7 @@ import sys
 import json
 import pandas as pd
 import numpy as np
+from collections import namedtuple
 from trie import Trie
 
 import time
@@ -14,11 +15,46 @@ baseline_layout_path = ""
 dict_path = ""
 baseline_layout = None
 
-keys = ['s', 'd', 'f', 'g', 'h', 'j', 'k', 'l']
-keys_to_index = {key: keys.index(key) for key in keys}
-
 chars = ['а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о',
          'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', "ы", 'ь', 'э', 'ю', 'я']
+
+Point = namedtuple('Point', ['x', 'y'])
+
+to_point = {
+    "q": Point(0, 0),
+    "w": Point(1, 0),
+    "e": Point(2, 0),
+    "r": Point(3, 0),
+    "t": Point(4, 0),
+    "y": Point(5, 0),
+    "u": Point(6, 0),
+    "i": Point(7, 0),
+    "o": Point(8, 0),
+    "p": Point(9, 0),
+    "[": Point(10, 0),
+    "]": Point(11, 0),
+    "a": Point(0, 1),
+    "s": Point(1, 1),
+    "d": Point(2, 1),
+    "f": Point(3, 1),
+    "g": Point(4, 1),
+    "h": Point(5, 1),
+    "j": Point(6, 1),
+    "k": Point(7, 1),
+    "l": Point(8, 1),
+    ";": Point(9, 1),
+    "'": Point(10, 1),
+    "z": Point(0, 2),
+    "x": Point(1, 2),
+    "c": Point(2, 2),
+    "v": Point(3, 2),
+    "b": Point(4, 2),
+    "n": Point(5, 2),
+    "m": Point(6, 2),
+    ",": Point(7, 2),
+    ".": Point(8, 2),
+    "/": Point(9, 2),
+}
 
 
 def parse_argv():
@@ -32,7 +68,7 @@ def parse_argv():
 
     layout_pathes = [path for path in sys.argv[1:-2]]
     # for i in range(1, 29):
-        # layout_pathes.append(f'keyboard_prefix_{i}.json')
+    # layout_pathes.append(f'keyboard_prefix_{i}.json')
 
     baseline_layout_path = sys.argv[-2]
     dict_path = sys.argv[-1]
@@ -110,8 +146,10 @@ def kspc(trie, layout, dict_):
 def lp(trie, layout, dict_):
     lp = 0
     for char in chars:
-        lp += abs(keys_to_index[layout.char_key(char)] -
-                  keys_to_index[baseline_layout.char_key(char)])
+        lp += abs(to_point[layout.char_key(char)].x -
+                  to_point[baseline_layout.char_key(char)].x)
+        lp += abs(to_point[layout.char_key(char)].y -
+                  to_point[baseline_layout.char_key(char)].y)
     return lp
 
 

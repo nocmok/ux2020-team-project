@@ -5,14 +5,13 @@ import numpy as np
 from collections import namedtuple
 from trie import Trie
 
-import time
-
 if __name__ != '__main__':
     sys.exit()
 
-layout_pathes = []
-baseline_layout_path = ""
-dict_path = ""
+layout_pathes = None
+baseline_layout_path = None
+dict_path = None
+output_path = None
 baseline_layout = None
 
 chars = ['а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о',
@@ -61,17 +60,18 @@ def parse_argv():
     global layout_pathes
     global dict_path
     global baseline_layout_path
+    global output_path
 
-    if len(sys.argv) < 4:
+    if len(sys.argv) < 5:
         print(
-            'usage: python metrics.py [path/to/layout#1, ...] [path/to/baseline/layout] [path/to/dictionary]')
+            'usage: python metrics.py [path/to/layout#1, ...] [path/to/baseline/layout] [path/to/dictionary] [output/path]')
 
-    layout_pathes = [path for path in sys.argv[1:-2]]
-    # for i in range(1, 29):
-    # layout_pathes.append(f'keyboard_prefix_{i}.json')
+    layout_pathes = [path for path in sys.argv[1:-3]]
+    # layout_pathes = [f'keyboard-layouts/keyboard_prefix_{i}.json' for i in range(1, 29)]
 
-    baseline_layout_path = sys.argv[-2]
-    dict_path = sys.argv[-1]
+    baseline_layout_path = sys.argv[-3]
+    dict_path = sys.argv[-2]
+    output_path = sys.argv[-1]
 
 
 def parse_layout(path):
@@ -146,10 +146,9 @@ def kspc(trie, layout, dict_):
 def lp(trie, layout, dict_):
     lp = 0
     for char in chars:
-        lp += abs(to_point[layout.char_key(char)].x -
-                  to_point[baseline_layout.char_key(char)].x)
-        lp += abs(to_point[layout.char_key(char)].y -
-                  to_point[baseline_layout.char_key(char)].y)
+        ki = to_point[layout.char_key(char)]
+        qi = to_point[baseline_layout.char_key(char)]
+        lp += abs(ki.x - qi.x) + abs(ki.y - qi.y)
     return lp
 
 
@@ -163,10 +162,9 @@ def compute_metrics(trie, layouts, dict_):
     df = pd.DataFrame(columns=[metric.metric_name for metric in metrics])
 
     for i in range(0, len(layouts)):
-        df.loc[get_file_name(layout_pathes[i])] = [metric(
-            trie, layouts[i], dict_) for metric in metrics]
+        df.loc[get_file_name(layout_pathes[i])] = [round(metric(
+            trie, layouts[i], dict_), 4) for metric in metrics]
     return df
-
 
 parse_argv()
 layouts = [KeyboardLayout(parse_layout(path)) for path in layout_pathes]
@@ -179,4 +177,4 @@ trie = Trie()
 trie.add_dataset(dict_)
 metrics = compute_metrics(trie, layouts, dict_)
 
-print(metrics.to_string())
+metrics.to_csv(output_path)

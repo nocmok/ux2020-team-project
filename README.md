@@ -1,30 +1,31 @@
-layout                   |  kspc(exclude space)  |  kspc    |  lp
--------------------------|-----------------------|----------|------
-keyboard_prefix_1.json   |  1.5011               |  1.5879  |  82.0
-keyboard_prefix_2.json   |  1.2876               |  1.3744  |  90.0
-keyboard_prefix_3.json   |  1.2703               |  1.3571  |  80.0
-keyboard_prefix_4.json   |  1.2653               |  1.3521  |  80.0
-keyboard_prefix_5.json   |  1.264                |  1.3508  |  80.0
-keyboard_prefix_6.json   |  1.2465               |  1.3333  |  72.0
-keyboard_prefix_7.json   |  1.2465               |  1.3333  |  68.0
-keyboard_prefix_8.json   |  1.2462               |  1.333   |  66.0
-keyboard_prefix_9.json   |  1.2455               |  1.3323  |  66.0
-keyboard_prefix_10.json  |  1.2455               |  1.3323  |  70.0
-keyboard_prefix_11.json  |  1.2463               |  1.3331  |  64.0
-keyboard_prefix_12.json  |  1.2463               |  1.3331  |  64.0
-keyboard_prefix_13.json  |  1.2463               |  1.3331  |  64.0
-keyboard_prefix_14.json  |  1.2463               |  1.3331  |  64.0
-keyboard_prefix_15.json  |  1.2463               |  1.3331  |  64.0
-keyboard_prefix_16.json  |  1.2463               |  1.3331  |  64.0
-keyboard_prefix_17.json  |  1.2463               |  1.3331  |  64.0
-keyboard_prefix_18.json  |  1.2463               |  1.3331  |  64.0
-keyboard_prefix_19.json  |  1.2463               |  1.3331  |  66.0
-keyboard_prefix_20.json  |  1.2463               |  1.3331  |  66.0
-keyboard_prefix_21.json  |  1.2463               |  1.3331  |  66.0
-keyboard_prefix_22.json  |  1.2463               |  1.3331  |  66.0
-keyboard_prefix_23.json  |  1.2463               |  1.3331  |  66.0
-keyboard_prefix_24.json  |  1.2463               |  1.3331  |  66.0
-keyboard_prefix_25.json  |  1.2463               |  1.3331  |  66.0
-keyboard_prefix_26.json  |  1.2463               |  1.3331  |  66.0
-keyboard_prefix_27.json  |  1.2463               |  1.3331  |  66.0
-keyboard_prefix_28.json  |  1.2463               |  1.3331  |  66.0
+layout                   |  kspc(exclude space)  |  kspc    |  lp(lexicographic order)  |  lp(qwerty)
+-------------------------|-----------------------|----------|---------------------------|------------
+baseline-layout.json     |  1.8306               |  1.9174  |  83                       |  37
+keyboard_prefix_1.json   |  1.5011               |  1.5879  |  82                       |  132
+keyboard_prefix_2.json   |  1.2876               |  1.3744  |  90                       |  116
+keyboard_prefix_3.json   |  1.2703               |  1.3571  |  80                       |  122
+keyboard_prefix_4.json   |  1.2653               |  1.3521  |  80                       |  134
+keyboard_prefix_5.json   |  1.264                |  1.3508  |  80                       |  114
+keyboard_prefix_6.json   |  1.2465               |  1.3333  |  72                       |  108
+keyboard_prefix_7.json   |  1.2465               |  1.3333  |  68                       |  110
+keyboard_prefix_8.json   |  1.2462               |  1.333   |  66                       |  108
+keyboard_prefix_9.json   |  1.2455               |  1.3323  |  66                       |  114
+keyboard_prefix_10.json  |  1.2455               |  1.3323  |  70                       |  110
+keyboard_prefix_11.json  |  1.2463               |  1.3331  |  64                       |  124
+keyboard_prefix_12.json  |  1.2463               |  1.3331  |  64                       |  122
+keyboard_prefix_13.json  |  1.2463               |  1.3331  |  64                       |  122
+keyboard_prefix_14.json  |  1.2463               |  1.3331  |  64                       |  122
+keyboard_prefix_15.json  |  1.2463               |  1.3331  |  64                       |  122
+keyboard_prefix_16.json  |  1.2463               |  1.3331  |  64                       |  122
+keyboard_prefix_17.json  |  1.2463               |  1.3331  |  64                       |  122
+keyboard_prefix_18.json  |  1.2463               |  1.3331  |  64                       |  122
+keyboard_prefix_19.json  |  1.2463               |  1.3331  |  66                       |  122
+keyboard_prefix_20.json  |  1.2463               |  1.3331  |  66                       |  122
+keyboard_prefix_21.json  |  1.2463               |  1.3331  |  66                       |  122
+keyboard_prefix_22.json  |  1.2463               |  1.3331  |  66                       |  122
+keyboard_prefix_23.json  |  1.2463               |  1.3331  |  66                       |  122
+keyboard_prefix_24.json  |  1.2463               |  1.3331  |  66                       |  122
+keyboard_prefix_25.json  |  1.2463               |  1.3331  |  66                       |  122
+keyboard_prefix_26.json  |  1.2463               |  1.3331  |  66                       |  122
+keyboard_prefix_27.json  |  1.2463               |  1.3331  |  66                       |  122
+keyboard_prefix_28.json  |  1.2463               |  1.3331  |  66                       |  122

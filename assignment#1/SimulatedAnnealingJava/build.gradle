@@ -1,0 +1,14 @@
+plugins {
+  id 'application'
+  id 'java'
+}
+
+compileJava.options.encoding = "UTF-8"
+
+run{
+    standardInput = System.in
+}
+
+application {
+  mainClass = 'com.github.T9LayoutProblem'
+}

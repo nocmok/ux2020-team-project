@@ -81,13 +81,6 @@ public class T9LayoutProblem {
             candidateLayout = generateCandidate(currentLayout);
             candidateEnergy = Metrics.countEnergy(candidateLayout);
 
-//            if (i % 100 == 0) {
-//                System.out.println("epoch = " + i + ", kspc = " + Metrics.countKSPC(resultLayout) +
-//                        ", lp = " + Metrics.countLP(resultLayout) + ", p = " +
-//                        getProbability(candidateEnergy - currentEnergy, temperature) + ", t = " + temperature
-//                        + ", de = " + (candidateEnergy - currentEnergy));
-//            }
-
             if (candidateEnergy < currentEnergy) {
                 currentLayout = candidateLayout;
                 currentEnergy = candidateEnergy;
@@ -160,9 +153,5 @@ public class T9LayoutProblem {
         Metrics.readCSV();
 
         solveT9LayoutProblem();
-
-//        int[] baselineLayout = new int[] {2, 6, 1, 5, 7, 3, 7, 7, 4, 0, 2, 6, 3, 4, 5, 3, 4, 2, 4, 1, 0, 7, 0, 1, 6, 7, 7, 0, 5, 7, 7, 0};
-//        System.out.println(Metrics.countKSPC(baselineLayout));
-//        System.out.println(Metrics.countLP(baselineLayout));
     }
 }

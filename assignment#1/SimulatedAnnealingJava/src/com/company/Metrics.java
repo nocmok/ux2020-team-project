@@ -139,6 +139,6 @@ public class Metrics {
         long mainMetric = countMainMetric(layoutArray);
         long lp = countLP(layoutArray);
 
-        return (double)(mainMetric * 1000 + lp) / 1000000;
+        return (double) (mainMetric * 1000 + lp) / 1000000;
     }
 }

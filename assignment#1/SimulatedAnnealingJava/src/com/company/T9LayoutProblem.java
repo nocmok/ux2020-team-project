@@ -163,5 +163,6 @@ public class T9LayoutProblem {
 
 //        int[] baselineLayout = new int[] {2, 6, 1, 5, 7, 3, 7, 7, 4, 0, 2, 6, 3, 4, 5, 3, 4, 2, 4, 1, 0, 7, 0, 1, 6, 7, 7, 0, 5, 7, 7, 0};
 //        System.out.println(Metrics.countKSPC(baselineLayout));
+//        System.out.println(Metrics.countLP(baselineLayout));
     }
 }

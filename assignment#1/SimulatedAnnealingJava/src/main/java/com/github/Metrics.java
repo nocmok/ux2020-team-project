@@ -1,8 +1,9 @@
-package com.company;
+package com.github;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -71,7 +72,7 @@ public class Metrics {
     }
 
     public static void readCSV() {
-        try (FileReader fr = new FileReader("dictionary.csv"); BufferedReader reader = new BufferedReader(fr)) {
+        try (FileReader fr = new FileReader("dictionary.csv", Charset.forName("UTF-8")); BufferedReader reader = new BufferedReader(fr)) {
             String line = reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] splitLine = line.split(",");

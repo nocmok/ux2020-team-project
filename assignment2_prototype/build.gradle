@@ -1,0 +1,19 @@
+plugins {
+    id 'application'
+    id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+}
+
+javafx {
+    version = '11'
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+application {
+    mainClass = 'com.nocmok.uxprototype.PrototypeApp'
+}

@@ -4,16 +4,34 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.9'
 }
 
+project.ext.debug = true
+
 javafx {
     version = '11'
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 repositories {
+    flatDir {
+        dirs 'libs'
+    }
     mavenLocal()
     mavenCentral()
+}
+
+dependencies {
+    implementation(name: 'json-20210307', ext: 'jar')
+    testImplementation(platform('org.junit:junit-bom:5.7.0'))
+	testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    testLogging.showStandardStreams = project.ext.debug
+    useJUnitPlatform()
 }
 
 application {
     mainClass = 'com.nocmok.uxprototype.PrototypeApp'
 }
+
+compileJava.options.encoding = "UTF-8"

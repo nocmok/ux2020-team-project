@@ -65,6 +65,10 @@ public class SessionScene extends Scene {
 
     private Sentence sentence;
 
+    private Sentence sampleSentence;
+
+    private Sentence sentenceToDisplay;
+
     private int sentenceTracker;
 
     private Benchmark benchmark;
@@ -115,12 +119,13 @@ public class SessionScene extends Scene {
         if (ignoreKey(event.getCode())) {
             return;
         }
-        benchmark.type();
         if (event.getCode().equals(KeyCode.SPACE)) {
             onSpaceTyped();
         } else if (event.getCode().equals(KeyCode.ENTER)) {
+            benchmark.type();
             onNextWordRequested();
         } else {
+            benchmark.type();
             hint.lightCell(event.getCode().getChar().charAt(0));
             onCharacterTyped(event.getCode().getChar().charAt(0));
         }
@@ -133,18 +138,18 @@ public class SessionScene extends Scene {
     private void onNextWordRequested() {
         parser.nextWord();
         if (parser.word() != null) {
-            sentence.addWord(parser.word());
-            textBox.setText(sentence.toString());
-            sentence.dropLast();
+            sentenceToDisplay.addWord(parser.word());
+            textBox.setText(sentenceToDisplay.toString());
+            sentenceToDisplay.dropLast();
         }
     }
 
     private void onCharacterTyped(char ch) {
         parser.add(ch);
         if (parser.word() != null) {
-            sentence.addWord(parser.word());
-            textBox.setText(sentence.toString());
-            sentence.dropLast();
+            sentenceToDisplay.addWord(parser.word());
+            textBox.setText(sentenceToDisplay.toString());
+            sentenceToDisplay.dropLast();
         }
     }
 
@@ -152,10 +157,11 @@ public class SessionScene extends Scene {
         if (parser.word() != null) {
             sentence.addWord(parser.word());
         }
+        sentenceToDisplay.addWord(" ");
         parser.clear();
 
         /** TODO */
-        if (sentence.words() == sentences.get(sentenceTracker).trim().split(" ").length) {
+        if (!benchmark.stopped() && sampleSentence.equals(sentence)) {
             completeSentence();
         }
     }
@@ -200,7 +206,7 @@ public class SessionScene extends Scene {
 
     private void completeSentence() {
         Benchmark.BenchmarkResult result = benchmark.stop();
-        boolean sentenceMatched = sentences.get(sentenceTracker).trim().equalsIgnoreCase(sentence.toString().trim());
+        boolean sentenceMatched = sentence.equals(sampleSentence);
         SessionMetrics metrics = new SessionMetrics(result.keysTyped(), sentence.size(), result.duration(),
                 sentenceMatched);
         statistics.add(metrics);
@@ -221,6 +227,8 @@ public class SessionScene extends Scene {
         sentenceBox.setText(sentences.get(sentenceTracker));
         textBox.clear();
         progressLabel.setText(String.format("%d/%d", sentenceTracker + 1, sentences.size()));
+        sampleSentence = new Sentence(sentences.get(sentenceTracker));
+        sentenceToDisplay = new Sentence();
         sentence = new Sentence();
         parser = new T9Parser(predictor);
         benchmark = new Benchmark();

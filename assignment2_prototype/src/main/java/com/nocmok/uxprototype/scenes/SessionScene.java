@@ -156,6 +156,7 @@ public class SessionScene extends Scene {
     private void onSpaceTyped() {
         if (parser.word() != null) {
             sentence.addWord(parser.word());
+            sentenceToDisplay.addWord(parser.word());
         }
         sentenceToDisplay.addWord(" ");
         parser.clear();

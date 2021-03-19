@@ -19,8 +19,8 @@
         <VBox.margin>
             <Insets bottom="0.0" left="30.0" right="30.0" top="0.0" />
         </VBox.margin>
-        <TextArea id="sentence" prefWidth="800" prefHeight="100" disable="true" style="-fx-opacity: 1" wrapText="true"></TextArea>
-        <TextArea id="text" prefWidth="800" prefHeight="100" disable="true" style="-fx-opacity: 1;-fx-cursor: default;" wrapText="true"></TextArea>
+        <TextArea id="sentence" prefWidth="800" prefHeight="100" style="-fx-opacity: 1" wrapText="true"></TextArea>
+        <TextArea id="text" prefWidth="800" prefHeight="100"  style="-fx-opacity: 1;-fx-cursor: default;" wrapText="true"></TextArea>
     </VBox>
     <LayoutHint id="hint" prefWidth="800" prefHeight="100">
         <VBox.margin>

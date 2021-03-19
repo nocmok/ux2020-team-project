@@ -1,9 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import com.nocmok.uxprototype.layouts.LayoutHint?>
 
-<VBox>
-    <children>
-        <Label text="Hello world FXML"/>
-    </children>
+<VBox prefWidth="800" prefHeight="600" alignment="center" xmlns:fx="http://javafx.com/fxml">
+    <Label id="progress" prefWidth="800" prefHeight="40" alignment="center" text="1/1">
+        <VBox.margin>
+            <Insets bottom="10.0" left="30.0" right="30.0" top="0.0" />
+        </VBox.margin>
+    </Label>
+    <VBox spacing="10">
+        <VBox.margin>
+            <Insets bottom="0.0" left="30.0" right="30.0" top="0.0" />
+        </VBox.margin>
+        <TextArea id="sentence" prefWidth="800" prefHeight="100" disable="true" style="-fx-opacity: 1" wrapText="true"></TextArea>
+        <TextArea id="text" prefWidth="800" prefHeight="100" disable="true" style="-fx-opacity: 1;-fx-cursor: default;" wrapText="true"></TextArea>
+    </VBox>
+    <LayoutHint id="hint" prefWidth="800" prefHeight="100">
+        <VBox.margin>
+            <Insets bottom="10.0" left="40.0" right="40.0" top="0.0" />
+        </VBox.margin>
+    </LayoutHint>
+    <HBox prefHeight="100" alignment="center" spacing="100">
+        <VBox.margin>
+            <Insets bottom="0.0" left="25.0" right="25.0" top="25.0" />
+        </VBox.margin>
+        <Button id="complete_button" prefHeight="40" prefWidth="120" text="Завершить" />
+        <Button id="next_button" prefHeight="40" prefWidth="120" text="Следующее" />
+    </HBox>
 </VBox>

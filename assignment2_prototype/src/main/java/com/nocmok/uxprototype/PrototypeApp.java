@@ -13,6 +13,8 @@ public class PrototypeApp extends Application {
 
     private static PrototypeApp app;
 
+    public static final int sentencesInSeries = 30;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         app = this;

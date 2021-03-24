@@ -8,10 +8,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import com.nocmok.uxprototype.Predictor.Word;
 
 import org.json.JSONObject;
 
@@ -89,5 +92,19 @@ public class Utils {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /** random subsample */
+    public static <T> List<T> subsample(List<T> list, int n) {
+        List<Integer> indexes = new ArrayList<>();
+        for (int i = 0; i < list.size(); ++i) {
+            indexes.add(i);
+        }
+        Collections.shuffle(indexes);
+        List<T> subsample = new ArrayList<>(n);
+        for (int i = 0; i < n; ++i) {
+            subsample.add(list.get(indexes.get(i)));
+        }
+        return subsample;
     }
 }

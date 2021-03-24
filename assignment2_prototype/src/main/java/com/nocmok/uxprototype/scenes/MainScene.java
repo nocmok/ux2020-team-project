@@ -1,6 +1,7 @@
 package com.nocmok.uxprototype.scenes;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +14,7 @@ import java.util.Map;
 import com.nocmok.uxprototype.Predictor;
 import com.nocmok.uxprototype.PrototypeApp;
 import com.nocmok.uxprototype.Utils;
-import com.nocmok.uxprototype.Word;
+import com.nocmok.uxprototype.Predictor.Word;
 import com.nocmok.uxprototype.layouts.Layouts;
 
 import javafx.fxml.FXMLLoader;
@@ -22,10 +23,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 
 public class MainScene extends Scene {
 
@@ -37,13 +36,18 @@ public class MainScene extends Scene {
     private final static File dictFile = new File(
             MainScene.class.getClassLoader().getResource("corpus/dictionary.csv").getPath());
 
+    private final static File sentencesFile = new File(
+            MainScene.class.getClassLoader().getResource("corpus/sentences.txt").getPath());
+
     private VBox layoutListView;
 
-    public MainScene() throws Exception {
+    private List<String> sentences;
+
+    public MainScene() {
         super(placeholder);
+        loadLayout("main_layout.fxml");
 
         Charset charset = Charset.forName("UTF-8");
-
         List<File> layoutFiles = layoutFiles();
         List<Word> words = Utils.readDictionaryCSV(dictFile, charset);
         Map<String, Predictor> predictors = new HashMap<>();
@@ -53,8 +57,6 @@ public class MainScene extends Scene {
             Predictor predictor = new Predictor(words, layout);
             predictors.put(layoutFile.getName(), predictor);
         }
-
-        setRoot(FXMLLoader.load(Layouts.get("main_layout.fxml")));
 
         this.layoutListView = (VBox) lookup("#layout_list");
 
@@ -68,32 +70,32 @@ public class MainScene extends Scene {
             label.setStyle("-fx-border-color:black");
             label.setAlignment(Pos.CENTER);
             VBox.setMargin(label, new Insets(5, 5, 5, 5));
-            label.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> startSession(predictor));
+            label.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> runSeries(predictor));
             layoutListView.getChildren().add(label);
+        }
+
+        this.sentences = getSentences();
+    }
+
+    private void loadLayout(String layoutName) {
+        try {
+            Parent layout = (Parent) FXMLLoader.load(Layouts.get(layoutName));
+            setRoot(layout);
+        } catch (IOException e) {
+            throw new RuntimeException("failed to load layout for " + this.getClass() + " due to io error", e);
         }
     }
 
     private List<String> getSentences() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Файл с предложениями");
-        File selectedFile = fileChooser.showOpenDialog(PrototypeApp.getApp().stage());
-        if (selectedFile == null) {
-            return null;
-        }
-        List<String> sentences = Utils.readLines(selectedFile, Charset.forName("UTF-8"));
-        List<String> formatted = new ArrayList<>(sentences.size());
-        for (String sentence : sentences) {
-            formatted.add(sentence.trim().toLowerCase());
-        }
-        return formatted;
+        return Utils.readLines(sentencesFile, Charset.forName("UTF-8"));
     }
 
-    private void startSession(Predictor predictor) {
-        List<String> sentences = getSentences();
+    private void runSeries(Predictor predictor) {
+        List<String> randomSentences = Utils.subsample(sentences, PrototypeApp.sentencesInSeries);
         if (sentences == null) {
             return;
         }
-        PrototypeApp.getApp().setScene(new SessionScene(predictor, sentences));
+        PrototypeApp.getApp().setScene(new SeriesScene(predictor, randomSentences));
     }
 
     private List<File> layoutFiles() {

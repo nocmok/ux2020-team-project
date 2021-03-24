@@ -1,16 +1,15 @@
-package com.nocmok.uxprototype.scenes;
+package com.nocmok.uxprototype;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
-import com.nocmok.uxprototype.Predictor;
-import com.nocmok.uxprototype.Word;
+import com.nocmok.uxprototype.Predictor.Word;
 
-public class T9Parser {
+public class T9 {
 
     private Predictor predictor;
 
@@ -18,7 +17,9 @@ public class T9Parser {
 
     private String word;
 
-    private Iterator<Word> wordsIter;
+    private List<Word> words;
+
+    private ListIterator<Word> wordIt;
 
     private static final Map<Character, Character> keysMapping = new HashMap<>();
 
@@ -42,9 +43,10 @@ public class T9Parser {
         keysMapping.put('д', 'l');
     }
 
-    public T9Parser(Predictor predictor) {
+    public T9(Predictor predictor) {
         this.predictor = predictor;
         this.input = new StringBuilder();
+        this.words = new ArrayList<Word>();
     }
 
     private char mapKey(char key) {
@@ -52,10 +54,10 @@ public class T9Parser {
     }
 
     /** if word not mathced */
-    private String defaultWord(CharSequence input){
+    private String defaultWord() {
         var layout = predictor.getLayout();
         StringBuilder builder = new StringBuilder();
-        for(int i = 0; i < input.length(); ++i){
+        for (int i = 0; i < input.length(); ++i) {
             builder.append(layout.get(String.valueOf(input.charAt(i))).get(0));
         }
         return builder.toString();
@@ -67,23 +69,47 @@ public class T9Parser {
      */
     public void add(char ch) {
         input.append(mapKey(Character.toLowerCase(ch)));
-        Set<Word> words = predictor.getWordsForKeys(input.toString()); 
-        wordsIter = words.iterator();
-        word = words.size() > 0 ? wordsIter.next().getWord() : defaultWord(input);
+        words.clear();
     }
 
+    /** Current word */
     public String word() {
+        words();
         return word;
     }
 
+    /** Word after current */
     public String nextWord() {
-        word = Optional.ofNullable(wordsIter).orElse(Collections.emptyIterator()).hasNext() ? wordsIter.next().getWord() : word;
+        words();
+        word = wordIt.hasNext() ? wordIt.next().getWord() : word;
         return word;
+    }
+
+    /** Word before current */
+    public String prevWord() {
+        words();
+        word = wordIt.hasPrevious() ? wordIt.previous().getWord() : word;
+        return word;
+    }
+
+    public List<Word> words() {
+        if (words.isEmpty()) {
+            Set<Word> wordSet = predictor.getWordsForKeys(input.toString());
+            if (wordSet.isEmpty()) {
+                words.add(new Word(defaultWord(), -1));
+            } else {
+                words.addAll(wordSet);
+            }
+            wordIt = words.listIterator();
+            word = wordIt.next().getWord();
+        }
+        return words;
     }
 
     public void clear() {
         input.setLength(0);
-        wordsIter = null;
+        words.clear();
+        wordIt = null;
         word = null;
     }
 }

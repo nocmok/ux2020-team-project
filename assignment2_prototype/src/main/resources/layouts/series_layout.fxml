@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import com.nocmok.uxprototype.layouts.LayoutHint?>
+<?import javafx.scene.layout.StackPane?>
+
+<VBox prefWidth="800" prefHeight="600" alignment="top_center" xmlns:fx="http://javafx.com/fxml">
+    <Label id="tracker" alignment="center">
+        <VBox.margin>
+            <Insets bottom="20.0" left="0.0" right="0.0" top="20.0" />
+        </VBox.margin>
+    </Label>
+    <StackPane id="frame">
+        <VBox.margin>
+            <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+        </VBox.margin>
+    </StackPane>
+</VBox>

@@ -10,6 +10,24 @@ import java.util.Comparator;
 
 public class Predictor {
 
+    public static class Word {
+        private final String word;
+        private final int frequency;
+
+        public Word(String word, int frequency) {
+            this.word = word;
+            this.frequency = frequency;
+        }
+
+        public String getWord() {
+            return word;
+        }
+
+        public int getFrequency() {
+            return frequency;
+        }
+    }
+
     private static final Map<Character, Integer> encoding = new HashMap<>();
 
     static {
@@ -110,7 +128,7 @@ public class Predictor {
         return result.toString();
     }
 
-    public Map<String, List<String>> getLayout(){
+    public Map<String, List<String>> getLayout() {
         return layout;
     }
 }

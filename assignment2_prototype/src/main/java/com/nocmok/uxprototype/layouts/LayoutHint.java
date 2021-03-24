@@ -1,14 +1,18 @@
 package com.nocmok.uxprototype.layouts;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -23,6 +27,8 @@ public class LayoutHint extends GridPane {
 
     private static final Map<Character, Integer> keyCodeMapping = new HashMap<>();
 
+    private final static Set<KeyCode> acceptableKeys = new HashSet<>();
+
     private static final String defaultStyle = "-fx-border-radius: 5 5 5 5;-fx-background-color: white;-fx-background-radius: 5 5 5 5;-fx-border-color: black;";
 
     private static final String lightStyle = "-fx-background-color: gray;-fx-border-radius: 5 5 5 5;-fx-background-radius: 5 5 5 5;-fx-border-color: black;";
@@ -36,12 +42,25 @@ public class LayoutHint extends GridPane {
         keyCodeMapping.put('j', 5);
         keyCodeMapping.put('k', 6);
         keyCodeMapping.put('l', 7);
+
+        acceptableKeys.add(KeyCode.S);
+        acceptableKeys.add(KeyCode.D);
+        acceptableKeys.add(KeyCode.F);
+        acceptableKeys.add(KeyCode.G);
+        acceptableKeys.add(KeyCode.H);
+        acceptableKeys.add(KeyCode.J);
+        acceptableKeys.add(KeyCode.K);
+        acceptableKeys.add(KeyCode.L);
     }
 
     private Label[] labels = new Label[cols];
 
     public LayoutHint() {
         makeGrid();
+
+        setFocusTraversable(true);
+        addEventHandler(KeyEvent.KEY_PRESSED, this::onKeyPressed);
+        addEventHandler(KeyEvent.KEY_RELEASED, this::onKeyReleased);
     }
 
     private void makeGrid() {
@@ -86,6 +105,7 @@ public class LayoutHint extends GridPane {
             label.setMaxWidth(Double.MAX_VALUE);
             label.setMaxHeight(Double.MAX_VALUE);
             label.setAlignment(Pos.BOTTOM_CENTER);
+            label.wrapTextProperty().set(true);
 
             setHalignment(label, HPos.CENTER);
             setValignment(label, VPos.CENTER);
@@ -93,6 +113,26 @@ public class LayoutHint extends GridPane {
 
             add(label, i, 0);
         }
+    }
+
+    private boolean ignoreKey(KeyCode key) {
+        return !acceptableKeys.contains(key);
+    }
+
+    private void onKeyPressed(KeyEvent event) {
+        if (ignoreKey(event.getCode())) {
+            return;
+        }
+        char key = Character.toLowerCase(event.getCode().getChar().charAt(0));
+        lightCell(key);
+    }
+
+    private void onKeyReleased(KeyEvent event) {
+        if (ignoreKey(event.getCode())) {
+            return;
+        }
+        char key = Character.toLowerCase(event.getCode().getChar().charAt(0));
+        unlightCell(key);
     }
 
     public void lightCell(char key) {

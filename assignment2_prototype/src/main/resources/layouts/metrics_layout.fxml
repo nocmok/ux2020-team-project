@@ -18,10 +18,10 @@
     <GridPane hgap="50.0" vgap="10">
         <Label text="Нажатия" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="1"></Label>
         <Label text="Введено" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="1"></Label>
-        <Label text="Время (мс)" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="1"></Label>
+        <Label text="Время (с)" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="1"></Label>
         <Label text="Без ошибок" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="1"></Label>
         <Label text="kspc" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="1"></Label>
-        <Label text="lp (мс)" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="1"></Label>
+        <Label text="lp (с)" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="1"></Label>
 
         <Label id="keys_typed" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.columnSpan="1"></Label>
         <Label id="keys_transcribed" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="1"></Label>

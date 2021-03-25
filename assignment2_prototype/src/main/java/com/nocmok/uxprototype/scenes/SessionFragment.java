@@ -58,7 +58,7 @@ public class SessionFragment extends Parent {
         this.visibleText = new Sentence();
         this.session.attach(this);
 
-        // allows this fragment to grab focus 
+        // allows this fragment to grab focus
         setFocusTraversable(true);
 
         loadLayout("session_layout.fxml");
@@ -70,6 +70,7 @@ public class SessionFragment extends Parent {
 
         LayoutHint hint = (LayoutHint) lookup("#hint");
         hint.setLayout(predictor.getLayout());
+        hint.attach(this);
 
         this.wordsHint = (WordsHint) lookup("#words_hint");
 
@@ -138,11 +139,11 @@ public class SessionFragment extends Parent {
         showWordHint();
     }
 
-    private void showPredictions(){
+    private void showPredictions() {
         wordsHint.setWords(t9.words());
     }
 
-    private void showWordHint(){
+    private void showWordHint() {
         wordsHint.lightItem(t9.wordPosition());
     }
 }

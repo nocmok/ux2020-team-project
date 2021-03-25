@@ -23,7 +23,7 @@ public class WordsHint extends FlowPane {
     public WordsHint() {
         this.lightedItem = -1;
         this.hasItems = false;
-        this.placeholder = wrapWord("начните ввод");
+        this.placeholder = wrapWord("...");
         getChildren().add(placeholder);
     }
 

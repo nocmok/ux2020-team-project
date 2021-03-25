@@ -26,10 +26,10 @@ public class MetricsFragment extends Parent {
 
         keysTypedLabel.setText(String.valueOf(metrics.keysTyped()));
         keysTranscribedLabel.setText(String.valueOf(metrics.keysTranscribed()));
-        timeLabel.setText(String.valueOf(metrics.duration()));
+        timeLabel.setText(String.format("%.3f",(double)metrics.duration() / 1000));
         matchedLabel.setText(String.valueOf(metrics.matched()));
         kspcLabel.setText(String.format("%.6f", metrics.keyStrokesPerChar()));
-        lpLabel.setText(String.format("%.0f", metrics.typingPerformance()));
+        lpLabel.setText(String.format("%.3f", metrics.typingPerformance() / 1000));
     }
 
     private void loadLayout(String layoutName) {

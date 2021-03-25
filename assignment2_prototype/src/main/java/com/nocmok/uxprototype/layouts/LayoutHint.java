@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -55,12 +57,16 @@ public class LayoutHint extends GridPane {
 
     private Label[] labels = new Label[cols];
 
+    private Node eventSource;
+
+    private EventHandler<KeyEvent> onKeyPressedHandler;
+
+    private EventHandler<KeyEvent> onKeyReleasedHandler;
+
     public LayoutHint() {
         makeGrid();
-
-        setFocusTraversable(true);
-        addEventHandler(KeyEvent.KEY_PRESSED, this::onKeyPressed);
-        addEventHandler(KeyEvent.KEY_RELEASED, this::onKeyReleased);
+        this.onKeyPressedHandler = this::onKeyPressed;
+        this.onKeyReleasedHandler = this::onKeyReleased;
     }
 
     private void makeGrid() {
@@ -115,6 +121,20 @@ public class LayoutHint extends GridPane {
 
             add(label, i, 0);
         }
+    }
+
+    public void attach(Node eventSource) {
+        this.eventSource = eventSource;
+        eventSource.addEventHandler(KeyEvent.KEY_PRESSED, onKeyPressedHandler);
+        eventSource.addEventHandler(KeyEvent.KEY_RELEASED, onKeyReleasedHandler);
+    }
+
+    public void detach() {
+        if (eventSource == null) {
+            return;
+        }
+        eventSource.removeEventHandler(KeyEvent.KEY_PRESSED, onKeyPressedHandler);
+        eventSource.removeEventHandler(KeyEvent.KEY_RELEASED, onKeyReleasedHandler);
     }
 
     private boolean ignoreKey(KeyCode key) {

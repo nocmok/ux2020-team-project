@@ -3,7 +3,6 @@ package com.nocmok.uxprototype;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,11 +14,14 @@ public class T9 {
 
     private StringBuilder input;
 
-    private String word;
+    // private String word;
 
     private List<Word> words;
 
-    private ListIterator<Word> wordIt;
+    // private ListIterator<Word> wordIt;
+
+    // current word
+    private int wordTracker;
 
     private static final Map<Character, Character> keysMapping = new HashMap<>();
 
@@ -47,6 +49,7 @@ public class T9 {
         this.predictor = predictor;
         this.input = new StringBuilder();
         this.words = new ArrayList<Word>();
+        this.wordTracker = 0;
     }
 
     private char mapKey(char key) {
@@ -75,21 +78,21 @@ public class T9 {
     /** Current word */
     public String word() {
         words();
-        return word;
+        return words.get(wordTracker).getWord();
     }
 
     /** Word after current */
     public String nextWord() {
         words();
-        word = wordIt.hasNext() ? wordIt.next().getWord() : word;
-        return word;
+        wordTracker = Integer.min(wordTracker + 1, words.size() - 1);
+        return words.get(wordTracker).getWord();
     }
 
     /** Word before current */
     public String prevWord() {
         words();
-        word = wordIt.hasPrevious() ? wordIt.previous().getWord() : word;
-        return word;
+        wordTracker = Integer.max(wordTracker - 1, 0);
+        return words.get(wordTracker).getWord();
     }
 
     public List<Word> words() {
@@ -100,8 +103,7 @@ public class T9 {
             } else {
                 words.addAll(wordSet);
             }
-            wordIt = words.listIterator();
-            word = wordIt.next().getWord();
+            wordTracker = 0;
         }
         return words;
     }
@@ -109,7 +111,5 @@ public class T9 {
     public void clear() {
         input.setLength(0);
         words.clear();
-        wordIt = null;
-        word = null;
     }
 }

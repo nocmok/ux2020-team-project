@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +26,20 @@ public class Utils {
 
     }
 
+    public static String readFileAsString(InputStream stream, Charset charset) {
+        try (InputStreamReader in = new InputStreamReader(stream, charset);
+                BufferedReader reader = new BufferedReader(in)) {
+            StringBuilder builder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+            return builder.toString();
+        } catch (IOException e) {
+            throw new RuntimeException("failed to read file due to i/o error", e);
+        }
+    }
+
     public static String readFileAsString(File file, Charset charset) {
         try (FileReader in = new FileReader(file, charset); BufferedReader reader = new BufferedReader(in)) {
             StringBuilder builder = new StringBuilder();
@@ -35,6 +51,11 @@ public class Utils {
         } catch (IOException e) {
             throw new RuntimeException("failed to read file due to i/o error", e);
         }
+    }
+
+    public static Map<String, List<String>> parseLayoutJson(InputStream stream, Charset charset) {
+        String json = readFileAsString(stream, charset);
+        return parseLayoutJson(json);
     }
 
     public static Map<String, List<String>> parseLayoutJson(File file, Charset charset) {
@@ -72,8 +93,37 @@ public class Utils {
         }
     }
 
+    public static List<Word> readDictionaryCSV(InputStream stream, Charset charset) {
+        List<Word> wordsList = new ArrayList<Word>();
+        try (InputStreamReader in = new InputStreamReader(stream, charset);
+                BufferedReader reader = new BufferedReader(in)) {
+            String line = reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                String[] splitLine = line.split(",");
+                wordsList.add(new Word(splitLine[0].trim(), Integer.parseInt(splitLine[2].trim())));
+            }
+            return wordsList;
+        } catch (IOException e) {
+            throw new RuntimeException("failed to read dictionary due to i/o error", e);
+        }
+    }
+
     public static List<String> readLines(File file, Charset charset) {
         try (FileReader fr = new FileReader(file, charset); BufferedReader reader = new BufferedReader(fr)) {
+            List<String> lines = new ArrayList<>();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+            return lines;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<String> readLines(InputStream stream, Charset charset) {
+        try (InputStreamReader in = new InputStreamReader(stream, charset);
+                BufferedReader reader = new BufferedReader(in)) {
             List<String> lines = new ArrayList<>();
             String line;
             while ((line = reader.readLine()) != null) {

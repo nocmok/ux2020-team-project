@@ -40,7 +40,7 @@ public class WordsHint extends FlowPane {
     public void setWords(List<?> words) {
         _clear();
         hasItems = !words.isEmpty();
-        for (var word : words) {
+        for (Object word : words) {
             Node node = wrapWord(word.toString());
             getChildren().add(node);
         }

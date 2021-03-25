@@ -53,7 +53,7 @@ public class T9 {
 
     /** if word not mathced */
     private String defaultWord() {
-        var layout = predictor.getLayout();
+        Map<String, List<String>> layout = predictor.getLayout();
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < input.length(); ++i) {
             builder.append(layout.get(String.valueOf(input.charAt(i))).get(0));

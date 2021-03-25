@@ -52,31 +52,6 @@ public class Sentence {
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-        if (!(other instanceof Sentence)) {
-            return false;
-        }
-        Sentence otherSentence = (Sentence) other;
-        if (otherSentence.words() != words() || otherSentence.size() != size()) {
-            return false;
-        }
-
-        var it1 = otherSentence.words.iterator();
-        var it2 = words.iterator();
-
-        while (it1.hasNext() && it2.hasNext()) {
-            if (!it1.next().equals(it2.next())) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         for (String word : words) {

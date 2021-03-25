@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.Map.Entry;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -61,7 +62,7 @@ public class Predictor {
 
     private static int[] flattenMap(Map<String, List<String>> map) {
         int[] layout = new int[33];
-        for (var entry : map.entrySet()) {
+        for (Entry<String, List<String>> entry : map.entrySet()) {
             char key = entry.getKey().charAt(0);
             for (String chstr : entry.getValue()) {
                 char ch = chstr.charAt(0);

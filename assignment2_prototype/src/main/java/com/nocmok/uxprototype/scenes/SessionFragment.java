@@ -65,7 +65,7 @@ public class SessionFragment extends Parent {
 
         this.textBox = (TextArea) lookup("#text");
 
-        var sentenceBox = (TextArea) lookup("#sentence");
+        TextArea sentenceBox = (TextArea) lookup("#sentence");
         sentenceBox.setText(targetSentence);
 
         LayoutHint hint = (LayoutHint) lookup("#hint");

@@ -1,0 +1,74 @@
+.root {
+    -fx-background-color: white;
+    background-color: white;
+    -fx-font-family: Arial;
+    font-family: Arial;
+    -fx-font-size: 15;
+    font-size: 15;
+    -fx-text-fill: black;
+}
+
+.title {
+    -fx-font-size: 20;
+    font-size: 20;
+    -fx-font-weight: bold;
+    font-weight: bold;
+}
+
+.word-hint-tag-default {
+    -fx-background-color: lightsteelblue;
+    background-color: lightsteelblue;
+    -fx-border-radius: 5 5 5 5;
+    border-radius: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
+    
+}
+
+.word-hint-tag-light {
+    -fx-background-color: lightskyblue;
+    background-color: lightskyblue;
+    -fx-border-radius: 5 5 5 5;
+    border-radius: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
+}
+
+.layout-hint-key-default {
+    -fx-max-width: 60;
+    max-width: 60;
+    -fx-max-height: 60;
+    max-height: 60;
+    -fx-border-radius: 5 5 5 5;
+    border-radius: 5 5 5 5;
+    -fx-background-color: white;
+    background-color: white;
+    -fx-background-radius: 5 5 5 5;
+    -fx-font-weight: normal;
+    font-weight: normal;  
+    -fx-border-color: black;
+    border-color: black;
+}
+
+.layout-hint-key-light {
+    -fx-max-width: 60;
+    max-width: 60;
+    -fx-max-height: 60;
+    max-height: 60;
+    -fx-border-radius: 5 5 5 5;
+    border-radius: 5 5 5 5;
+    -fx-background-color: lightskyblue;
+    background-color: lightskyblue;
+    -fx-background-radius: 5 5 5 5;
+    -fx-font-weight: normal;
+    font-weight: normal; 
+    -fx-border-color: black;
+    border-color: black;
+}
+
+.button {
+    -fx-alignment: center;
+    -fx-background-color: lightskyblue;
+    background-color: lightskyblue;
+    -fx-border-radius: 5 5 5 5;
+    border-radius: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
+}

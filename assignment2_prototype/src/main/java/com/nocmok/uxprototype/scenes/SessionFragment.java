@@ -14,6 +14,7 @@ import com.nocmok.uxprototype.Predictor;
 import com.nocmok.uxprototype.T9;
 import com.nocmok.uxprototype.layouts.LayoutHint;
 import com.nocmok.uxprototype.layouts.Layouts;
+import com.nocmok.uxprototype.layouts.WordsHint;
 
 import javafx.fxml.FXMLLoader;
 
@@ -38,6 +39,8 @@ public class SessionFragment extends Parent {
     private Predictor predictor;
 
     private TextArea textBox;
+
+    private WordsHint wordsHint;
 
     private T9 t9;
 
@@ -67,6 +70,8 @@ public class SessionFragment extends Parent {
 
         LayoutHint hint = (LayoutHint) lookup("#hint");
         hint.setLayout(predictor.getLayout());
+
+        this.wordsHint = (WordsHint) lookup("#words_hint");
 
         this.addEventHandler(KeyEvent.KEY_PRESSED, this::onKeyPressed);
     }
@@ -105,6 +110,7 @@ public class SessionFragment extends Parent {
         visibleText.addWord(" ");
         textBox.setText(visibleText.toString() + "|");
         t9.clear();
+        wordsHint.clear();
     }
 
     private void onNextWord() {
@@ -112,6 +118,7 @@ public class SessionFragment extends Parent {
         visibleText.addWord(t9.word());
         textBox.setText(visibleText.toString() + "|");
         visibleText.dropLast();
+        showWordHint();
     }
 
     private void onPrevWord() {
@@ -119,6 +126,7 @@ public class SessionFragment extends Parent {
         visibleText.addWord(t9.word());
         textBox.setText(visibleText.toString() + "|");
         visibleText.dropLast();
+        showWordHint();
     }
 
     private void onCharTyped(char ch) {
@@ -126,5 +134,15 @@ public class SessionFragment extends Parent {
         visibleText.addWord(t9.word());
         textBox.setText(visibleText.toString() + "|");
         visibleText.dropLast();
+        showPredictions();
+        showWordHint();
+    }
+
+    private void showPredictions(){
+        wordsHint.setWords(t9.words());
+    }
+
+    private void showWordHint(){
+        wordsHint.lightItem(t9.wordPosition());
     }
 }

@@ -9,16 +9,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MetricsFragment extends Parent {
 
-    private SessionMetrics metrics;
-
     public MetricsFragment(SessionMetrics metrics) {
-        this.metrics = metrics;
         setFocusTraversable(true);
 
         loadLayout("metrics_layout.fxml");

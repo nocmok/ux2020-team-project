@@ -20,10 +20,11 @@ public class PrototypeApp extends Application {
         app = this;
         this.primaryStage = primaryStage;
 
-        primaryStage.maxWidthProperty().set(800);
+        // primaryStage.maxWidthProperty().set(800);
         primaryStage.minWidthProperty().set(800);
-        primaryStage.maxHeightProperty().set(600);
+        // primaryStage.maxHeightProperty().set(600);
         primaryStage.minHeightProperty().set(600);
+        primaryStage.setResizable(false);
 
         this.mainScene = new MainScene();
         primaryStage.setScene(mainScene);

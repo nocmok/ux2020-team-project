@@ -29,9 +29,9 @@ public class LayoutHint extends GridPane {
 
     private final static Set<KeyCode> acceptableKeys = new HashSet<>();
 
-    private static final String defaultStyle = "-fx-border-radius: 5 5 5 5;-fx-background-color: white;-fx-background-radius: 5 5 5 5;-fx-border-color: black;";
+    private static final String defaultStyleClass = "layout-hint-key-default";
 
-    private static final String lightStyle = "-fx-background-color: gray;-fx-border-radius: 5 5 5 5;-fx-background-radius: 5 5 5 5;-fx-border-color: black;";
+    private static final String lightStyleClass = "layout-hint-key-light";
 
     static {
         keyCodeMapping.put('s', 0);
@@ -79,11 +79,13 @@ public class LayoutHint extends GridPane {
         for (int i = 0; i < cols; ++i) {
             Label label = new Label();
             labels[i] = label;
+
+            label.getStyleClass().clear();
+            label.getStyleClass().add(defaultStyleClass);
             label.setText(String.valueOf(keys[i]).toUpperCase());
             label.setMaxWidth(Double.MAX_VALUE);
             label.setMaxHeight(Double.MAX_VALUE);
             label.setAlignment(Pos.CENTER);
-            label.setStyle(defaultStyle);
 
             setHalignment(label, HPos.CENTER);
             setValignment(label, VPos.CENTER);
@@ -136,16 +138,14 @@ public class LayoutHint extends GridPane {
     }
 
     public void lightCell(char key) {
-        labels[keyCodeMapping.get(Character.toLowerCase(key))].setStyle(lightStyle);
+        Label label = labels[keyCodeMapping.get(Character.toLowerCase(key))];
+        label.getStyleClass().clear();
+        label.getStyleClass().add(lightStyleClass);
     }
 
     public void unlightCell(char key) {
-        labels[keyCodeMapping.get(Character.toLowerCase(key))].setStyle(defaultStyle);
-    }
-
-    public void unlight() {
-        for (Label label : labels) {
-            label.setStyle(defaultStyle);
-        }
+        Label label = labels[keyCodeMapping.get(Character.toLowerCase(key))];
+        label.getStyleClass().clear();
+        label.getStyleClass().add(defaultStyleClass);
     }
 }

@@ -14,13 +14,8 @@ public class T9 {
 
     private StringBuilder input;
 
-    // private String word;
-
     private List<Word> words;
 
-    // private ListIterator<Word> wordIt;
-
-    // current word
     private int wordTracker;
 
     private static final Map<Character, Character> keysMapping = new HashMap<>();
@@ -106,6 +101,10 @@ public class T9 {
             wordTracker = 0;
         }
         return words;
+    }
+
+    public int wordPosition() {
+        return wordTracker;
     }
 
     public void clear() {

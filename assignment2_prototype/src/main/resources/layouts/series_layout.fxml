@@ -10,7 +10,7 @@
 <?import com.nocmok.uxprototype.layouts.LayoutHint?>
 <?import javafx.scene.layout.StackPane?>
 
-<VBox prefWidth="800" prefHeight="600" alignment="top_center" xmlns:fx="http://javafx.com/fxml">
+<VBox prefWidth="800" prefHeight="600" alignment="top_center" xmlns:fx="http://javafx.com/fxml" stylesheets="@../css/style.css">
     <Label id="tracker" alignment="center">
         <VBox.margin>
             <Insets bottom="20.0" left="0.0" right="0.0" top="20.0" />

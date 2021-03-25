@@ -6,13 +6,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 
-<VBox prefWidth="800" prefHeight="600" xmlns:fx="http://javafx.com/fxml" alignment="center">
-    <HBox maxWidth="Infinity" maxHeight="Infinity" alignment="center">
-        <VBox maxWidth="Infinity" maxHeight="Infinity" id="layout_list" alignment="top_center">
-            <HBox.margin>
-                <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
-            </HBox.margin>
-        </VBox>
+<VBox prefWidth="800" prefHeight="600" xmlns:fx="http://javafx.com/fxml" alignment="center" stylesheets="@../css/style.css">
+    <HBox alignment="center" spacing="40">
+        <Label id="a_layout_button" text="A" styleClass="button, title" prefWidth="100" prefHeight="50"></Label>
+        <Label id="b_layout_button" text="B" styleClass="button, title" prefWidth="100" prefHeight="50"></Label>        
     </HBox>
 </VBox>

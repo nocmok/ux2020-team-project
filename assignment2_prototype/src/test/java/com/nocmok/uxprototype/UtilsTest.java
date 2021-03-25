@@ -1,13 +1,11 @@
 package com.nocmok.uxprototype;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public class UtilsTest {
 

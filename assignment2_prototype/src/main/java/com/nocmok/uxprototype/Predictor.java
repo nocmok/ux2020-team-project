@@ -26,6 +26,11 @@ public class Predictor {
         public int getFrequency() {
             return frequency;
         }
+
+        @Override
+        public String toString() {
+            return word;
+        }
     }
 
     private static final Map<Character, Integer> encoding = new HashMap<>();

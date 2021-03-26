@@ -9,8 +9,8 @@
 <?import javafx.scene.control.Button?>
 
 <VBox prefWidth="800" prefHeight="600" xmlns:fx="http://javafx.com/fxml" alignment="center" stylesheets="@../css/style.css">
-    <HBox alignment="center" spacing="40">
-        <Label id="a_layout_button" text="А" styleClass="button, title" prefWidth="100" prefHeight="50"></Label>
-        <Label id="b_layout_button" text="Б" styleClass="button, title" prefWidth="100" prefHeight="50"></Label>        
+    <HBox alignment="center" spacing="60">
+        <Label id="a_layout_button" text="Контрольный" styleClass="button, title" prefWidth="180" prefHeight="80"></Label>
+        <Label id="b_layout_button" text="Наш" styleClass="button, title" prefWidth="180" prefHeight="80"></Label>        
     </HBox>
 </VBox>

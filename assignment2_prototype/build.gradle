@@ -4,10 +4,17 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.9'
 }
 
+compileJava {
+    options.encoding = "UTF-8"
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+
 project.ext.debug = true
 
 javafx {
-    version = '11'
+    version = '15'
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
@@ -31,7 +38,5 @@ test {
 }
 
 application {
-    mainClass = 'com.nocmok.uxprototype.PrototypeApp'
+    mainClass = "com.nocmok.uxprototype.PrototypeApp"
 }
-
-compileJava.options.encoding = "UTF-8"
